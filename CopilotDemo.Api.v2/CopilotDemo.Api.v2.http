@@ -1,0 +1,135 @@
+### Dragon Ball API Testing
+
+@baseUrl = https://localhost:7001/api
+
+### Health Check
+GET {{baseUrl}}/../health
+
+### Get Characters (Default pagination)
+GET {{baseUrl}}/characters
+
+### Get Characters with filters
+GET {{baseUrl}}/characters?page=1&pageSize=6&race=Saiyan
+
+### Search Characters by name
+GET {{baseUrl}}/characters/search?query=Goku
+
+### Get specific Character
+GET {{baseUrl}}/characters/1
+
+### Get all Planets
+GET {{baseUrl}}/planets
+
+### Get specific Planet
+GET {{baseUrl}}/planets/1
+
+### Compare Characters (POST method)
+POST {{baseUrl}}/comparison
+Content-Type: application/json
+
+{
+    "characterIds": [1, 2, 3]
+}
+
+### Compare Characters (GET method)
+GET {{baseUrl}}/comparison?ids=1,2,3
+
+### Advanced Character Search with multiple filters
+GET {{baseUrl}}/characters?search=Goku&race=Saiyan&affiliation=Z Fighter&gender=Male&page=1&pageSize=10
+
+### Characters pagination
+GET {{baseUrl}}/characters?page=2&pageSize=5
+
+### Health Check
+GET {{host}}/health
+
+### Get Characters (Default - First Page)
+GET {{host}}/api/characters
+
+### Get Characters with Pagination
+GET {{host}}/api/characters?page=1&pageSize=6
+
+### Get Characters with Filters - Saiyans
+GET {{host}}/api/characters?race=Saiyan&page=1&pageSize=10
+
+### Get Characters with Filters - Z Fighters
+GET {{host}}/api/characters?affiliation=Z Fighter&page=1&pageSize=10
+
+### Get Characters with Multiple Filters
+GET {{host}}/api/characters?race=Human&gender=Male&affiliation=Z Fighter
+
+### Get Character by ID - Goku
+GET {{host}}/api/characters/1
+
+### Get Character by ID - Vegeta
+GET {{host}}/api/characters/2
+
+### Get Character by ID - Piccolo
+GET {{host}}/api/characters/8
+
+### Get Character by ID - Invalid ID
+GET {{host}}/api/characters/99999
+
+### Search Characters by Name - "goku"
+GET {{host}}/api/characters/search?q=goku
+
+### Search Characters by Name - "veg"
+GET {{host}}/api/characters/search?q=veg
+
+### Search Characters - Short Query (Should Fail)
+GET {{host}}/api/characters/search?q=a
+
+### Get All Planets
+GET {{host}}/api/planets
+
+### Get Planet by ID - Earth
+GET {{host}}/api/planets/1
+
+### Get Planet by ID - Vegeta
+GET {{host}}/api/planets/2
+
+### Compare Characters - POST (Goku vs Vegeta)
+POST {{host}}/api/comparison
+Content-Type: application/json
+
+[1, 2]
+
+### Compare Characters - POST (Multiple Characters)
+POST {{host}}/api/comparison
+Content-Type: application/json
+
+[1, 2, 8, 4]
+
+### Compare Characters - GET (Goku vs Vegeta vs Piccolo)
+GET {{host}}/api/comparison?ids=1,2,8
+
+### Compare Characters - Too Many Characters (Should Fail)
+POST {{host}}/api/comparison
+Content-Type: application/json
+
+[1, 2, 3, 4, 5, 6]
+
+### Compare Characters - Invalid IDs (Should Fail)
+POST {{host}}/api/comparison
+Content-Type: application/json
+
+[1, 99999]
+
+### Compare Characters - Duplicate IDs (Should Fail)  
+POST {{host}}/api/comparison
+Content-Type: application/json
+
+[1, 1, 2]
+
+### Compare Characters - Empty Array (Should Fail)
+POST {{host}}/api/comparison
+Content-Type: application/json
+
+[]
+
+### Test CORS - OPTIONS Request
+OPTIONS {{host}}/api/characters
+Origin: http://localhost:4200
+
+### Swagger Documentation
+GET {{host}}/swagger

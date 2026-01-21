@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dragon Ball Explorer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="styles/main.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-dragon"></i> Dragon Ball Explorer</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" onclick="showSection('characters')">Personajes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showSection('planets')">Planetas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showSection('comparison')">Comparar</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <span id="comparison-counter" class="badge bg-warning text-dark me-2" style="display: none;">
+                        0 seleccionados
+                    </span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Loading Spinner -->
+    <div id="loading" class="text-center py-5" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+        <p class="mt-2">Cargando datos...</p>
+    </div>
+
+    <!-- Characters Section -->
+    <div id="characters-section" class="container mt-4">
+        <!-- Search and Filters -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="fas fa-search"></i> Búsqueda y Filtros</h5>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="search-input" placeholder="Buscar personaje...">
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-select" id="race-filter">
+                                    <option value="">Todas las razas</option>
+                                    <option value="Saiyan">Saiyan</option>
+                                    <option value="Human">Humano</option>
+                                    <option value="Namekian">Namekiano</option>
+                                    <option value="Android">Androide</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-select" id="affiliation-filter">
+                                    <option value="">Todas las afiliaciones</option>
+                                    <option value="Z Fighter">Z Fighter</option>
+                                    <option value="Villain">Villano</option>
+                                    <option value="Other">Otro</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-select" id="gender-filter">
+                                    <option value="">Todos los géneros</option>
+                                    <option value="Male">Masculino</option>
+                                    <option value="Female">Femenino</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary w-100" onclick="searchCharacters()">
+                                    <i class="fas fa-search"></i> Buscar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Characters Grid -->
+        <div id="characters-grid" class="row g-4">
+            <!-- Characters will be loaded here -->
+        </div>
+
+        <!-- Pagination -->
+        <nav aria-label="Character pagination" class="mt-4">
+            <ul id="pagination" class="pagination justify-content-center">
+                <!-- Pagination will be generated here -->
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Planets Section -->
+    <div id="planets-section" class="container mt-4" style="display: none;">
+        <h2><i class="fas fa-globe"></i> Planetas</h2>
+        <div id="planets-grid" class="row g-4">
+            <!-- Planets will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Comparison Section -->
+    <div id="comparison-section" class="container mt-4" style="display: none;">
+        <h2><i class="fas fa-balance-scale"></i> Comparación de Personajes</h2>
+        <div id="comparison-area">
+            <p class="text-muted">Selecciona personajes desde la sección de personajes para compararlos aquí.</p>
+        </div>
+    </div>
+
+    <!-- Character Detail Modal -->
+    <div class="modal fade" id="characterModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="characterModalLabel">Detalle del Personaje</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="character-detail-content">
+                    <!-- Character details will be loaded here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" id="add-to-comparison-btn">
+                        <i class="fas fa-plus"></i> Agregar a Comparación
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/characters.js"></script>
+    <script src="scripts/planets.js"></script>
+    <script src="scripts/comparison.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>

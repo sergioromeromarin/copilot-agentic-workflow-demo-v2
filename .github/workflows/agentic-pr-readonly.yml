@@ -1,0 +1,71 @@
+name: Agentic PR (readonly)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: agentic-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: agent-runner/package-lock.json
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Install runner deps
+        working-directory: agent-runner
+        run: npm ci
+
+      - name: Build runner
+        working-directory: agent-runner
+        run: npm run build
+
+      - name: Run agent (readonly)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AGENT_MODE: readonly
+          AGENT_ARTIFACT_DIR: artifacts/agent
+          # Optional: enable LLM if you add a secret in repo settings
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_BASE_URL: ${{ secrets.OPENAI_BASE_URL }}
+          OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+        run: node agent-runner/dist/index.js
+
+      - name: Attach report to job summary
+        if: always()
+        run: |
+          if [ -f agent-runner/artifacts/agent/report.md ]; then
+            cat agent-runner/artifacts/agent/report.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No report generated" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agentic-report
+          path: agent-runner/artifacts/agent

@@ -1,6 +1,25 @@
 import { canExec, canWrite } from '../policy.js';
 import { exec } from '../tools/exec.js';
 import { readText, writeText } from '../tools/fs.js';
+/**
+ * Unit Test Generator Agent
+ *
+ * WHY A CUSTOM RUNNER?
+ * This agent demonstrates why we use a custom runner instead of native GitHub Copilot:
+ *
+ * 1. AUTOMATED EXECUTION: Runs in GitHub Actions on every PR without human intervention
+ * 2. POLICY-BASED CONTROL: Respects policy.canWrite and policy.canExec for safe operations
+ * 3. STRUCTURED OUTPUT: Returns AgentResult with findings, artifacts, and handoff support
+ * 4. CROSS-AGENT COORDINATION: Receives tasks from other agents via receivedHandoffs
+ * 5. TOOL INTEGRATION: Uses custom tools (exec, readText, writeText) with error handling
+ * 6. CI/CD NATIVE: Designed for automated testing in pipelines (dotnet test with TRX output)
+ *
+ * Native GitHub Copilot cannot provide:
+ * - Multi-agent orchestration with handoffs
+ * - Policy-based execution restrictions
+ * - Automated CI/CD integration
+ * - Structured, programmatic result aggregation
+ */
 export async function runUnitTestGenerator(policy, repoRoot, receivedHandoffs = []) {
     const findings = [];
     if (receivedHandoffs.length > 0) {

@@ -1,0 +1,137 @@
+{
+  "pr": {
+    "owner": "sergioromeromarin",
+    "repo": "copilot-agentic-workflow-demo-v2",
+    "number": 1
+  },
+  "startedAt": "2026-01-22T16:45:35.668Z",
+  "finishedAt": "2026-01-22T16:45:35.673Z",
+  "policy": {
+    "mode": "readonly",
+    "elevatedMode": "tests",
+    "allowedWriteGlobs": [
+      "CopilotDemo.Api.v2/**",
+      "dragonball-client/**",
+      "CopilotDemo.Api.v2.Tests/**",
+      "artifacts/**",
+      "docs/**",
+      "README.md"
+    ],
+    "deniedWriteGlobs": [
+      "**/bin/**",
+      "**/obj/**",
+      "**/node_modules/**",
+      "**/.git/**"
+    ],
+    "allowedExecPrefixes": [],
+    "maxExecMs": 180000,
+    "maxConcurrency": 3
+  },
+  "results": [
+    {
+      "name": "backend",
+      "summary": "Backend checks OK/limited",
+      "findings": [
+        {
+          "level": "info",
+          "code": "backend.build.skipped",
+          "message": "Exec disabled by policy (or no AGENT_EXEC prefixes)."
+        }
+      ],
+      "proposedEdits": [],
+      "commands": [],
+      "artifacts": [],
+      "handoffs": [
+        {
+          "to": "unit-tests",
+          "title": "Run dotnet tests (if allowed)",
+          "goal": "If in elevated tests/both, run dotnet test and capture logs",
+          "constraints": {
+            "noWrite": false,
+            "noExec": false
+          }
+        }
+      ],
+      "receivedHandoffs": []
+    },
+    {
+      "name": "frontend",
+      "summary": "Frontend checks completed",
+      "findings": [
+        {
+          "level": "info",
+          "code": "frontend.todo",
+          "message": "Frontend agent placeholder (can add npm build checks later)."
+        }
+      ],
+      "proposedEdits": [],
+      "commands": [],
+      "artifacts": [],
+      "receivedHandoffs": []
+    },
+    {
+      "name": "qa-integration",
+      "summary": "QA integration checks completed",
+      "findings": [
+        {
+          "level": "info",
+          "code": "qa.smoke.skipped",
+          "message": "QA smoke checks skipped in read-only mode."
+        }
+      ],
+      "proposedEdits": [],
+      "commands": [],
+      "artifacts": [],
+      "receivedHandoffs": []
+    },
+    {
+      "name": "docs",
+      "summary": "Docs checks completed",
+      "findings": [
+        {
+          "level": "info",
+          "code": "docs.todo",
+          "message": "Docs agent placeholder (can update README/demo docs in elevated fix/both)."
+        }
+      ],
+      "proposedEdits": [],
+      "commands": [],
+      "artifacts": [],
+      "receivedHandoffs": []
+    },
+    {
+      "name": "unit-tests",
+      "summary": "Unit test generator completed",
+      "findings": [
+        {
+          "level": "info",
+          "code": "tests.generated.skipped",
+          "message": "Skipping test generation (write disabled by policy)."
+        },
+        {
+          "level": "info",
+          "code": "tests.dotnet.skipped",
+          "message": "Skipping dotnet test (exec disabled by policy)."
+        }
+      ],
+      "proposedEdits": [],
+      "commands": [],
+      "artifacts": [
+        {
+          "path": "artifacts/agent/test-results",
+          "description": "dotnet test TRX results (if executed)"
+        },
+        {
+          "path": "artifacts/agent/dotnet-test.stdout.log",
+          "description": "dotnet test stdout (if executed)"
+        },
+        {
+          "path": "artifacts/agent/dotnet-test.stderr.log",
+          "description": "dotnet test stderr (if executed)"
+        }
+      ],
+      "receivedHandoffs": []
+    }
+  ],
+  "executiveSummary": ""
+}

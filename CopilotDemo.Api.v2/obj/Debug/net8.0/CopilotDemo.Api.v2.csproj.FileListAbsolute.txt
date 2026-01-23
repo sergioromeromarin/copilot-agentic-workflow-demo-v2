@@ -38,3 +38,4 @@ C:\Users\0012655\copilot-agentic-workflow-demo-v2\CopilotDemo.Api.v2\obj\Debug\n
 C:\Users\0012655\copilot-agentic-workflow-demo-v2\CopilotDemo.Api.v2\obj\Debug\net8.0\CopilotDemo.Api.v2.pdb
 C:\Users\0012655\copilot-agentic-workflow-demo-v2\CopilotDemo.Api.v2\obj\Debug\net8.0\CopilotDemo.Api.v2.genruntimeconfig.cache
 C:\Users\0012655\copilot-agentic-workflow-demo-v2\CopilotDemo.Api.v2\obj\Debug\net8.0\ref\CopilotDemo.Api.v2.dll
+C:\Users\0012655\copilot-agentic-workflow-demo-v2\CopilotDemo.Api.v2\obj\Debug\net8.0\CopilotDemo.Api.v2.sourcelink.json

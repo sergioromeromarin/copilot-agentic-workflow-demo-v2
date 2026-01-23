@@ -54,6 +54,45 @@ ng e2e
 
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
+
+## Paginación de Personajes
+
+La consulta de personajes soporta paginación. El frontend solicita los datos usando los parámetros `page` y `pageSize`, y muestra controles de navegación para avanzar, retroceder, ir a la primera y última página.
+
+**Ejemplo de uso:**
+```js
+characterManager.loadCharacters(2); // Carga la página 2
+```
+
+**Respuesta esperada del backend:**
+```json
+{
+	"items": [ ... ],
+	"meta": {
+		"totalItems": 58,
+		"itemCount": 12,
+		"itemsPerPage": 12,
+		"totalPages": 5,
+		"currentPage": 2
+	},
+	"links": {
+		"first": "...",
+		"previous": "...",
+		"next": "...",
+		"last": "..."
+	}
+}
+```
+
+**Controles de paginación:**
+- Los botones de navegación usan los enlaces proporcionados por el backend.
+- El usuario puede cambiar de página y el frontend actualizará la vista automáticamente.
+- Se han añadido botones para navegar a la primera y última página.
+
+**Notas:**
+- El tamaño de página por defecto es 12.
+- Si la consulta falla, se muestra un mensaje de error.
+
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

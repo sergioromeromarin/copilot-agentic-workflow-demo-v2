@@ -228,8 +228,17 @@ class CharacterManager {
             return;
         }
 
-        const { currentPage, totalPages } = pagination;
+        const { currentPage, totalPages, links } = pagination;
         let html = '';
+
+        // First page button
+        html += `
+            <li class="page-item ${currentPage === 1 ? 'disabled' : ''}">
+                <a class="page-link" href="#" onclick="characterManager.loadCharacters(1, characterManager.currentFilters)">
+                    <i class="fas fa-angle-double-left"></i>
+                </a>
+            </li>
+        `;
 
         // Previous button
         html += `
@@ -257,6 +266,15 @@ class CharacterManager {
             <li class="page-item ${currentPage >= totalPages ? 'disabled' : ''}">
                 <a class="page-link" href="#" onclick="characterManager.loadCharacters(${currentPage + 1}, characterManager.currentFilters)">
                     <i class="fas fa-chevron-right"></i>
+                </a>
+            </li>
+        `;
+
+        // Last page button
+        html += `
+            <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
+                <a class="page-link" href="#" onclick="characterManager.loadCharacters(${totalPages}, characterManager.currentFilters)">
+                    <i class="fas fa-angle-double-right"></i>
                 </a>
             </li>
         `;
